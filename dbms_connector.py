@@ -33,6 +33,12 @@ def insert(data):
         count +=1
     return "Inserting Names to DB - Success"
 
+def update(name,status,entry_time,exit_time):
+    sql = "UPDATE table1 SET Status = %s,Entry_Time = %s,Exit_Time=%s WHERE name=%s"
+    val = (status,entry_time,exit_time,name)
+    
+    cursor.execute(sql,val)
+    mydb.commit()
 
 
 # =============================================================================
@@ -45,7 +51,7 @@ def insert(data):
 #insert(known_faces)
 
 # =============================================================================
-# dataSheet = [["table1","Shubham","P","01:00:45","2:10:00"],["table2","Shubham","A","01:09:45","1:10:00"],["table1","ABC","A","01:00:45","2:10:00"]]
+# dataSheet = [["table1","SHUBHAM","P","01:00:45","2:10:00"],["table1","ELONMUSK","A","01:09:45","1:10:00"],["table1","BILLGATES","P","01:00:45","2:10:00"]]
 # for data in dataSheet:
-#     insert(data)
+#     update(data)
 # =============================================================================
