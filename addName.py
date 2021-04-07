@@ -3,8 +3,8 @@ import pandas as pd
 #import csv
 
 count = 1
-entry_time = '00:00:00'
-exit_time = '00:00:00'
+entry_time = 'NotYet'
+exit_time = 'NotYet'
 def createDict(classNames):
     global count
     myDict = {}
@@ -21,20 +21,26 @@ def createDict(classNames):
     
 
 def markName(names,myDict):
-    global entry_time
-    global exit_time
+
     now = datetime.now()
     for name in myDict:
       if name in names:
-        myDict[name] = 'P'
+        if myDict[name] == 'P':
+            continue
+        myDict[name] ='P'
         entry_time = now.strftime('%H:%M:%S')
-      else:
-        myDict[name] = 'A'
+        exit_time = 'NotYet'
+      else: 
+        if myDict[name] == 'A':
+            continue
+        myDict[name] ='A'
         exit_time = now.strftime('%H:%M:%S')
-    update_attendance(name, myDict[name],entry_time,exit_time)
+        entry_time = 'NotYet'
+      update_attendance(name, myDict[name],entry_time,exit_time)
     print(myDict)
     
 def update_attendance(name,status,entry_time,exit_time):
+    print(name,status,entry_time,exit_time)
     df = pd.read_csv('Attendance.csv')
 
     df.loc[df['Name']==name, ['Attendance', 'EntryTime','ExitTime']] = [status, entry_time, exit_time]
