@@ -4,4 +4,3 @@ class Person:
         self.name = name;
         self.imgName = imgName;
         
-        
