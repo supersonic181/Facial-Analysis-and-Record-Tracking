@@ -1,6 +1,5 @@
 from datetime import datetime
 import pandas as pd
-from dbms_connector import update
 #import csv
 
 count = 1
@@ -38,7 +37,6 @@ def markName(names,myDict):
         exit_time = now.strftime('%H:%M:%S')
         entry_time = 'NotYet'
       update_attendance(name, myDict[name],entry_time,exit_time)
-      update(name, myDict[name],entry_time,exit_time)
     print(myDict)
     
 def update_attendance(name,status,entry_time,exit_time):

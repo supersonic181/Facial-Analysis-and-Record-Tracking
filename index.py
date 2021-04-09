@@ -5,7 +5,6 @@ import numpy as np
 import time
 from addName import markName,createDict
 from get_encodings import read_encoded_data
-from dbms_connector import insert,dropTable,create
 
 def classify_face(im):
     
@@ -31,16 +30,11 @@ def classify_face(im):
           
     return current_names
 
-
-table = ["table1"]
-dropTable(table)
-create(table)
 encodings = read_encoded_data()
 known_face_names = list(encodings.keys())
 faces_encoded = list(encodings.values())
 print("Imorting Encoding Complete")
 myDict = createDict(known_face_names)
-print(insert(known_face_names))
     
 cam = cv2.VideoCapture(1)
 cv2.namedWindow("Image")
