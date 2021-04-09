@@ -1,5 +1,4 @@
 import mariadb
-import os
 
 mydb = mariadb.connect(
     host = "localhost",
@@ -17,18 +16,6 @@ def insert_into_persons(names,imgName):
         mydb.commit()
         print(cursor.lastrowid)
     return "Success"
-
-nameList = []
-fileName = []
-
-for dirpath,dnames,fnames in os.walk("./imgSource"):
-    for file in fnames:
-        if file.endswith(".jpg") or file.endswith(".png"):
-            currentName = file.split(".")[0]
-        nameList.append(currentName)
-        fileName.append(file)
-print(insert_into_persons(nameList,fileName))
-
 
 def insert_into_records(n,p):
     personID = cursor.execute(f"Select personid FROM persons WHERE Name='{n}'")
