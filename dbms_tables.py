@@ -11,19 +11,20 @@ mydb = mariadb.connect(
 cursor = mydb.cursor()
 #cursor.execute("DROP TABLE Records,Persons,Rooms")
 Person = '''CREATE TABLE Persons(
-            PersonID int NOT NULL AUTO_INCREMENT,
-            Name varchar(255) NOT NULL UNIQUE,
-            PRIMARY KEY (Personid))'''
+            id int NOT NULL AUTO_INCREMENT,
+            name varchar(255) NOT NULL ,
+            imgName varchar(255) NOT NULL,
+            PRIMARY KEY (id))'''
 
 #cursor.execute(Person)
 
 
 Room = '''CREATE TABLE Rooms(
-        RoomID int NOT NULL AUTO_INCREMENT,
-        Room_Name varchar(255) NOT NULL UNIQUE,
-        Room_Location varchar(255) NOT NULL,
-        Room_Type varchar(50) NOT NULL,
-        PRIMARY KEY (Roomid))'''
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        floorNo varchar(255) NOT NULL,
+        type varchar(50) NOT NULL,
+        PRIMARY KEY (id))'''
 
 #cursor.execute(Room)
 
@@ -34,8 +35,8 @@ Record = '''CREATE TABLE Records(
             Status varchar(2) NOT NULL,
             Entry_Time varchar(255),
             Exit_Time varchar(255),
-            FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),
-            FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID))'''
+            FOREIGN KEY (PersonID) REFERENCES Persons(id),
+            FOREIGN KEY (RoomID) REFERENCES Rooms(id))'''
 
 #cursor.execute(Record)
 

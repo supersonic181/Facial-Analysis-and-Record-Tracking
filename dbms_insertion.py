@@ -9,23 +9,25 @@ mydb = mariadb.connect(
     )
 cursor = mydb.cursor()
 
-def insert_into_persons(names):
-    for name in names:
-        sql = "INSERT INTO persons(Name) VALUES (?)"
-        val = (name,)
+def insert_into_persons(names,imgName):
+    for name,imgN in zip(names,imgName):
+        sql = "INSERT INTO persons(name,imgName) VALUES (?,?)"
+        val = (name,imgN)
         cursor.execute(sql,val)
         mydb.commit()
         print(cursor.lastrowid)
     return "Success"
 
 nameList = []
+fileName = []
 
 for dirpath,dnames,fnames in os.walk("./imgSource"):
     for file in fnames:
         if file.endswith(".jpg") or file.endswith(".png"):
             currentName = file.split(".")[0]
         nameList.append(currentName)
-#print(insert_into_persons(nameList))
+        fileName.append(file)
+print(insert_into_persons(nameList,fileName))
 
 
 def insert_into_records(n,p):
@@ -33,4 +35,4 @@ def insert_into_records(n,p):
     roomID = cursor.execute(f"Select roomid FROM rooms WHERE room_name='{p}")
     print(personID,roomID)
     
-insert_into_records("SHUBHAM","Shubham")
+#insert_into_records("SHUBHAM","Shubham")
