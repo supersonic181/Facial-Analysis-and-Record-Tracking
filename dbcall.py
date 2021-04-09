@@ -1,4 +1,4 @@
-from dbms_insertion import insert_into_persons
+from db import insert_person
 import os
 
 
@@ -11,4 +11,7 @@ for dirpath,dnames,fnames in os.walk("./imgSource"):
             currentName = file.split(".")[0]
         nameList.append(currentName)
         fileName.append(file)
-print(insert_into_persons(nameList,fileName))
+        
+for name,imgName in zip(nameList,fileName):
+    roomid = 1
+    print(insert_person(name,roomid,imgName))

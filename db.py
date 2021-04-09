@@ -9,9 +9,11 @@ mydb = mariadb.connect(
     )
 cursor = mydb.cursor()
 
-def insert_person(person_name,img_name):
-    sql = "INSERT INTO persons(name,imgName) VALUES (?,?)"
-    val = (person_name,img_name)
+''' INSERT PERSON NAME,IMGNAME INTO PERSON TABLE'''
+
+def insert_person(person_name,roomid,img_name):
+    sql = "INSERT INTO persons(name,roomid,imgName) VALUES (?,?,?)"
+    val = (person_name,roomid,img_name)
     cursor.execute(sql,val)
     mydb.commit()
     print("Id of LastRow: ",cursor.lastrowid)
@@ -34,21 +36,38 @@ def get_person(Id):
     return person_details
     
 
-person_details = get_person(4)
-print(person_details.Id,person_details.name,person_details.imgName)
+#person_details = get_person(4)
+#print(person_details.Id,person_details.name,person_details.imgName)
 
 
+def insert_attendance_record(Pid,Rid,status,entryTime,exitTime):
+    sql = "INSERT INTO records(PersonID,RoomID,Status,Entry_Time,Exit_Time) VALUES (?,?,?,?,?)"
+    val = (Pid,Rid,status,entryTime,exitTime)
+    cursor.execute(sql,val)
+    mydb.commit()
+    return "Success"
 
+def get_attendance_by_room(roomID):
+    sql = "SELECT * FROM records WHERE roomid=?"
+    val = (roomID,)
+    cursor.execute(sql,val)
+    out = cursor.fetchall()
+    for i in out:
+        print(i)
+    return "Success"
 
-
-
-
-
-
-
-def insert_into_records(n,p):
-    personID = cursor.execute(f"Select personid FROM persons WHERE Name='{n}'")
-    roomID = cursor.execute(f"Select roomid FROM rooms WHERE room_name='{p}")
-    print(personID,roomID)
+def update_attendace(Pid,status,entry_time,exit_time):   
+    if entry_time is None:
+        sql = "UPDATE records SET (status,exit_time) VALUES (?,?) WHERE personID = ?"
+        val = (status,exit_time,Pid)
+        cursor.execute(sql,val)
+        mydb.commit()
+    else:
+        sql = "UPDATE records SET (status,entry_time,exit_time) VALUES (?,?,?) WHERE personID = ?"
+        val = (status,entry_time,exit_time,Pid)
+        cursor.execute(sql,val)
+        mydb.commit()
+        
+    return "Success"
     
 #insert_into_records("SHUBHAM","Shubham")
