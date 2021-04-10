@@ -1,16 +1,16 @@
 import random
 import os
 from os import path
-from db import roomid_validation,insert_person
+from db import get_room,insert_person
 import string
-from encodings import add_encoding
+from encoding import add_encoding
 
 def register_user(name,roomid,imgPath):
     if name == '' or name.isdigit() or name is None:
         return "Invalid Name"
     if not path.exists(imgPath):
         return "Invalid ImgPath"
-    if not roomid_validation(roomid):
+    if get_room(roomid) is None:
         return "Invalid roomid"
     fileName = os.path.basename(imgPath).split(".")
     imgName,imgExt = fileName[0],fileName[1]
@@ -25,4 +25,4 @@ def register_user(name,roomid,imgPath):
     return "User Registered"
         
  
-print(register_user("ShubhamShaw", 1, "imgSource\SHUBHAM.jpg"))
+print(register_user("ShubhamShaw", 5, "imgSource\ShubhamShawNbkJRXKV.jpg"))

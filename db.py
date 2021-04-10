@@ -38,12 +38,13 @@ def get_person(Id):
 
 #person_details = get_person(4)
 #print(person_details.Id,person_details.name,person_details.imgName)
-def roomid_validation(roomid):
-    try:
-        cursor.execute(f"SELECT * FROM rooms WHERE id={roomid}")
-        return True
-    except:
-        return False
+def get_room(roomid):
+    sql = "SELECT * FROM rooms WHERE id=?"
+    val = (roomid,)
+    cursor.execute(sql,val)
+    room = cursor.fetchone()
+    return room
+    
 
 def insert_attendance_record(Pid,Rid,status,entryTime,exitTime):
     sql = "INSERT INTO records(PersonID,RoomID,Status,Entry_Time,Exit_Time) VALUES (?,?,?,?,?)"
