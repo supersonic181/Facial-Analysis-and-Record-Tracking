@@ -52,9 +52,7 @@ def get_attendance_by_room(roomID):
     val = (roomID,)
     cursor.execute(sql,val)
     out = cursor.fetchall()
-    for i in out:
-        print(i)
-    return "Success"
+    return out
 
 def update_attendace(Pid,status,entry_time,exit_time):   
     if entry_time is None:
