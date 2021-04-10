@@ -3,7 +3,7 @@ import os
 from os import path
 from db import roomid_validation,insert_person
 import string
-from get_encodings import add_encoding
+from encodings import add_encoding
 
 def register_user(name,roomid,imgPath):
     if name == '' or name.isdigit() or name is None:
