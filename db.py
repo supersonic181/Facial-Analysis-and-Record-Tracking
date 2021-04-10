@@ -38,14 +38,19 @@ def get_person(Id):
 
 #person_details = get_person(4)
 #print(person_details.Id,person_details.name,person_details.imgName)
-
+def roomid_validation(roomid):
+    try:
+        cursor.execute(f"SELECT * FROM rooms WHERE id={roomid}")
+        return True
+    except:
+        return False
 
 def insert_attendance_record(Pid,Rid,status,entryTime,exitTime):
     sql = "INSERT INTO records(PersonID,RoomID,Status,Entry_Time,Exit_Time) VALUES (?,?,?,?,?)"
     val = (Pid,Rid,status,entryTime,exitTime)
     cursor.execute(sql,val)
     mydb.commit()
-    return "Success"
+    return cursor.lastrowid
 
 def get_attendance_by_room(roomID):
     sql = "SELECT * FROM records WHERE roomid=?"
