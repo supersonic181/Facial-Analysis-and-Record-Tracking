@@ -68,7 +68,7 @@ def insert_encoding(Id,encoding):
     return cursor.lastrowid
     
 def get_encoding(Id):
-    sql = "SELECT encoding FROM face_encoding WHERE id=?"
+    sql = "SELECT encoding FROM face_encodings WHERE PersonID=?"
     val = (Id,)
     cursor.execute(sql,val)
     (blobjob,) = cursor.fetchone()
