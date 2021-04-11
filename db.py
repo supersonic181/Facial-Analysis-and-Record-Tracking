@@ -97,13 +97,11 @@ def update_attendance(Pid,status,entry_time,exit_time):
         sql = "UPDATE records SET Status=?,Exit_time=? WHERE PersonID = ?"
         val = (status,exit_time,Pid)
         cursor.execute(sql,val)
-        mydb.commit()
     else:
         sql = "UPDATE records SET Status=?,Entry_Time=?,Exit_Time=? WHERE PersonID = ?"
         val = (status,entry_time,exit_time,Pid)
         cursor.execute(sql,val)
-        mydb.commit()
-        
+    mydb.commit()    
     return "Success"
     
 #insert_into_records("SHUBHAM","Shubham")

@@ -13,13 +13,13 @@ def markName(present_persons,IdToStatusDict):
             if IdToStatusDict[current_id] == 'P':
                 continue
             IdToStatusDict[current_id] ='P'
-            entry_time = now.strftime('%H:%M:%S')
+            entry_time = now
             exit_time = None
         else: 
             if IdToStatusDict[current_id] == 'A':
                 continue
             IdToStatusDict[current_id] ='A'
-            exit_time = now.strftime('%H:%M:%S')
+            exit_time = now
             entry_time = None
         update_attendance(current_id, IdToStatusDict[current_id],entry_time,exit_time)
         print(current_id,IdToStatusDict[current_id],entry_time,exit_time)   
