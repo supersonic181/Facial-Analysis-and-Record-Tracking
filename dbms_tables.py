@@ -10,6 +10,7 @@ mydb = mariadb.connect(
 
 cursor = mydb.cursor()
 #cursor.execute("DROP TABLE records,persons,rooms")
+
 Person = '''CREATE TABLE Persons(
             id int NOT NULL AUTO_INCREMENT,
             roomid int NOT NULL,
@@ -42,10 +43,13 @@ Record = '''CREATE TABLE Records(
 
 #cursor.execute(Record)
 
+Face_Encodings = '''CREATE TABLE face_encodings(
+                    PersonID int NOT NULL,
+                    encoding blob NOT NULL,
+                    FOREIGN KEY (PersonID) REFERENCES Persons(id))'''
 
 
-
-
+cursor.execute(Face_Encodings)
 
 
 

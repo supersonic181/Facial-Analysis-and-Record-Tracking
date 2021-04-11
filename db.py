@@ -1,4 +1,5 @@
 import mariadb
+import pickle
 from Person import Person
 
 mydb = mariadb.connect(
@@ -9,7 +10,7 @@ mydb = mariadb.connect(
     )
 cursor = mydb.cursor()
 
-''' INSERT PERSON NAME,IMGNAME INTO PERSON TABLE'''
+''' PERSONS TABLE'''
 
 def insert_person(person_name,roomid,img_name):
     sql = "INSERT INTO persons(name,roomid,imgName) VALUES (?,?,?)"
@@ -17,7 +18,7 @@ def insert_person(person_name,roomid,img_name):
     cursor.execute(sql,val)
     mydb.commit()
     print("Id of LastRow: ",cursor.lastrowid)
-    return "Success"
+    return cursor.lastrowid
 
 def delete_person(Id):
     sql = "DELETE FROM persons WHERE Id=?"
@@ -35,9 +36,8 @@ def get_person(Id):
     person_details = Person(out[0],out[1],out[2])
     return person_details
     
+''' ROOMS TABLE '''
 
-#person_details = get_person(4)
-#print(person_details.Id,person_details.name,person_details.imgName)
 def get_room(roomid):
     sql = "SELECT * FROM rooms WHERE id=?"
     val = (roomid,)
@@ -45,6 +45,27 @@ def get_room(roomid):
     room = cursor.fetchone()
     return room
     
+
+''' FACE_ENCODINGS TABLE'''
+
+def insert_encoding(Id,encoding):
+    blobjob = pickle.dumps(encoding)
+    sql = "INSERT INTO face_encodings(PersonID,encoding) VALUES(?,?)"
+    val = (Id,blobjob)
+    cursor.execute(sql,val)
+    mydb.commit()
+    return cursor.lastrowid
+    
+def get_encoding(Id):
+    sql = "SELECT encoding FROM face_encoding WHERE id=?"
+    val = (Id,)
+    cursor.execute(sql,val)
+    (blobjob,) = cursor.fetchone()
+    encoding = pickle.loads(blobjob)
+    return encoding
+
+
+''' RECORDS TABLE'''
 
 def insert_attendance_record(Pid,Rid,status,entryTime,exitTime):
     sql = "INSERT INTO records(PersonID,RoomID,Status,Entry_Time,Exit_Time) VALUES (?,?,?,?,?)"
