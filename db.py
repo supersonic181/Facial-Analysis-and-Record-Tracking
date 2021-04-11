@@ -29,7 +29,7 @@ def delete_person(Id):
     return "Success"
 
 def get_person(Id):
-    sql = "SELECT Id,name,imgName FROM persons WHERE Id=?"
+    sql = "SELECT Id,roomid,name,imgName FROM persons WHERE Id=?"
     val = (Id,)
     cursor.execute(sql,val)
     out = cursor.fetchone()
