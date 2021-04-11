@@ -2,7 +2,7 @@ import random
 import os
 from os import path
 import face_recognition as fr
-from db import get_room,insert_person,insert_encoding
+from db import get_room,insert_person,insert_encoding,insert_attendance_record
 import string
 
 def register_user(name,roomid,imgPath):
@@ -26,8 +26,8 @@ def register_user(name,roomid,imgPath):
     os.rename(imgPath,new_path)
     Id = insert_person(name, roomid, imgName)
     insert_encoding(Id, encoding)
-    
+    insert_attendance_record(Id, roomid, "A", None, None)
     return "User Registered"
         
  
-print(register_user("ShubhamShaw", 1, "imgSource\ShubhamShawNbkJRXKV.jpg"))
+print(register_user("ShubhamShaw", 1, "imgSource\ShubhamShawjVYRTlNy.jpg"))
