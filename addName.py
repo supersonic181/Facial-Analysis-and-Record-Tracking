@@ -1,10 +1,11 @@
 from datetime import datetime
 import pandas as pd
+from db import update_attendace
 #import csv
 
 count = 1
-entry_time = 'NotYet'
-exit_time = 'NotYet'
+entry_time = None
+exit_time = None
 def createDict(classNames):
     global count
     myDict = {}
@@ -20,24 +21,27 @@ def createDict(classNames):
     return myDict
     
 
-def markName(names,myDict):
+def markName(present_persons,IdToStatusDict):
 
     now = datetime.now()
-    for name in myDict:
-      if name in names:
-        if myDict[name] == 'P':
-            continue
-        myDict[name] ='P'
-        entry_time = now.strftime('%H:%M:%S')
-        exit_time = 'NotYet'
-      else: 
-        if myDict[name] == 'A':
-            continue
-        myDict[name] ='A'
-        exit_time = now.strftime('%H:%M:%S')
-        entry_time = 'NotYet'
-      update_attendance(name, myDict[name],entry_time,exit_time)
-    print(myDict)
+    for current_id in IdToStatusDict:
+        matching_person = next((person for person in present_persons if person.Id is current_id),None)
+        if matching_person:
+            if IdToStatusDict[current_id] == 'P':
+                continue
+            IdToStatusDict[current_id] ='P'
+            entry_time = now.strftime('%H:%M:%S')
+            exit_time = None
+        else: 
+            if IdToStatusDict[current_id] == 'A':
+                continue
+            IdToStatusDict[current_id] ='A'
+            exit_time = now.strftime('%H:%M:%S')
+            entry_time = None
+        #update_attendance(current_id, IdToStatusDict[current_id],entry_time,exit_time)
+        print(current_id,IdToStatusDict[current_id],entry_time,exit_time)   
+            
+        
     
 def update_attendance(name,status,entry_time,exit_time):
     print(name,status,entry_time,exit_time)

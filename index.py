@@ -3,6 +3,7 @@ import os
 import cv2
 import numpy as np
 import time
+from addName import markName
 from db import get_persons_by_room,get_encoding,get_attendance_by_room
 
 def classify_face(im,known_persons,known_encodings):
@@ -13,19 +14,19 @@ def classify_face(im,known_persons,known_encodings):
     face_locations = fr.face_locations(img)
     unknown_face_encodings = fr.face_encodings(img, face_locations)
 
-    for face_encoding in unknown_face_encodings:
+    for unknown_encoding in unknown_face_encodings:
     
         # See if the face is a match for the known face(s)
-        matches = fr.compare_faces(known_encodings, face_encoding)
+        matches = fr.compare_faces(known_encodings, unknown_encoding)
         #name = "Unknown"
 
         # use the known face with the smallest distance to the new face
-        face_distances = fr.face_distance(known_encodings, face_encoding)
+        face_distances = fr.face_distance(known_encodings, unknown_encoding)
         best_match_index = np.argmin(face_distances)
         if matches[best_match_index]:
             person = known_persons[best_match_index]  
-        present_persons.add(person)
-        print(present_persons)
+            present_persons.add(person)
+            print(person.Id,person.name)
           
     return present_persons
 
@@ -62,8 +63,8 @@ while True:
         if checker<5:
             img_name = "1.png"
             cv2.imwrite(img_name, frame)
-            names = classify_face(img_name,known_persons,known_encodings)
-            markName(names,myDict)
+            present_persons = classify_face(img_name,known_persons,known_encodings)
+            markName(present_persons,idToStatusDict)
             checker +=1
         else:
             checker = 0
