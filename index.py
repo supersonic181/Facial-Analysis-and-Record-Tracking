@@ -15,12 +15,8 @@ def classify_face(im,known_persons,known_encodings):
     unknown_face_encodings = fr.face_encodings(img, face_locations)
 
     for unknown_encoding in unknown_face_encodings:
-    
-        # See if the face is a match for the known face(s)
         matches = fr.compare_faces(known_encodings, unknown_encoding)
-        #name = "Unknown"
 
-        # use the known face with the smallest distance to the new face
         face_distances = fr.face_distance(known_encodings, unknown_encoding)
         best_match_index = np.argmin(face_distances)
         if matches[best_match_index]:

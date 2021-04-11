@@ -92,14 +92,14 @@ def get_attendance_by_room(roomID):
     out = cursor.fetchall()
     return out
 
-def update_attendace(Pid,status,entry_time,exit_time):   
+def update_attendance(Pid,status,entry_time,exit_time):   
     if entry_time is None:
-        sql = "UPDATE records SET (status,exit_time) VALUES (?,?) WHERE personID = ?"
+        sql = "UPDATE records SET Status=?,Exit_time=? WHERE PersonID = ?"
         val = (status,exit_time,Pid)
         cursor.execute(sql,val)
         mydb.commit()
     else:
-        sql = "UPDATE records SET (status,entry_time,exit_time) VALUES (?,?,?) WHERE personID = ?"
+        sql = "UPDATE records SET Status=?,Entry_Time=?,Exit_Time=? WHERE PersonID = ?"
         val = (status,entry_time,exit_time,Pid)
         cursor.execute(sql,val)
         mydb.commit()
