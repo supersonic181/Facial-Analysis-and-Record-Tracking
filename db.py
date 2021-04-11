@@ -33,8 +33,19 @@ def get_person(Id):
     val = (Id,)
     cursor.execute(sql,val)
     out = cursor.fetchone()
-    person_details = Person(out[0],out[1],out[2])
+    person_details = Person(out[0],out[1],out[2],out[3])
     return person_details
+
+def get_persons_by_room(roomid):
+    sql = "SELECT id,roomid,name,imgName FROM persons WHERE roomid=?"
+    val = (roomid,)
+    cursor.execute(sql,val)
+    out = cursor.fetchall()
+    persons = []
+    for row in out:
+        person = Person(row[0], row[1], row[2], row[3])
+        persons.append(person)
+    return persons
     
 ''' ROOMS TABLE '''
 
