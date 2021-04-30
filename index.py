@@ -26,40 +26,41 @@ def classify_face(im,known_persons,known_encodings):
           
     return present_persons
 
-roomid = 1
-known_persons = get_persons_by_room(roomid)
-known_encodings = []
-for person in known_persons:
-    encoding = get_encoding(person.Id)
-    known_encodings.append(encoding)
-
-idToStatusDict = {}
-record = get_attendance_by_room(roomid)
-for i in record:
-    idToStatusDict[i[0]] = i[2]
+def process(roomid,cameraNo):
+    #roomid = 1
+    known_persons = get_persons_by_room(roomid)
+    known_encodings = []
+    for person in known_persons:
+        encoding = get_encoding(person.Id)
+        known_encodings.append(encoding)
     
-cam = cv2.VideoCapture(1)
-cv2.namedWindow("Image")
-checker = 0
-
-while True:
-    ret, frame = cam.read()
-    cv2.waitKey(0)
-    if not ret:
-        print("failed to grab frame")
-        break
-    cv2.imshow("Image", frame)
-
-    if checker<5:
-        img_name = "1.png"
-        cv2.imwrite(img_name, frame)
-        present_persons = classify_face(img_name,known_persons,known_encodings)
-        markName(present_persons,idToStatusDict)
-        checker +=1
-    else:
-        checker = 0
-        os.remove("1.png")
-        time.sleep(1)
-     
-cam.release()     
+    idToStatusDict = {}
+    record = get_attendance_by_room(roomid)
+    for i in record:
+        idToStatusDict[i[0]] = i[2]
+        
+    cam = cv2.VideoCapture(cameraNo)
+    cv2.namedWindow("Image")
+    checker = 0
+    
+    while True:
+        ret, frame = cam.read()
+        cv2.waitKey(1)
+        if not ret:
+            print("failed to grab frame")
+            break
+        cv2.imshow("Image", frame)
+    
+        if checker<5:
+            img_name = "1.png"
+            cv2.imwrite(img_name, frame)
+            present_persons = classify_face(img_name,known_persons,known_encodings)
+            markName(present_persons,idToStatusDict)
+            checker +=1
+        else:
+            checker = 0
+            os.remove("1.png")
+            time.sleep(1)
+         
+    cam.release()     
 
