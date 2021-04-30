@@ -44,28 +44,22 @@ checker = 0
 
 while True:
     ret, frame = cam.read()
+    cv2.waitKey(0)
     if not ret:
         print("failed to grab frame")
         break
     cv2.imshow("Image", frame)
 
-    k = cv2.waitKey(1)
-    
-    if k%256 == 27:
-        # ESC pressed
-        print("Escape hit, closing...")
-        break
+    if checker<5:
+        img_name = "1.png"
+        cv2.imwrite(img_name, frame)
+        present_persons = classify_face(img_name,known_persons,known_encodings)
+        markName(present_persons,idToStatusDict)
+        checker +=1
     else:
-        if checker<5:
-            img_name = "1.png"
-            cv2.imwrite(img_name, frame)
-            present_persons = classify_face(img_name,known_persons,known_encodings)
-            markName(present_persons,idToStatusDict)
-            checker +=1
-        else:
-            checker = 0
-            os.remove("1.png")
-            time.sleep(5)
-
+        checker = 0
+        os.remove("1.png")
+        time.sleep(1)
      
 cam.release()     
+
