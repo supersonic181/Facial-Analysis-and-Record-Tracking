@@ -33,12 +33,14 @@ def process(roomid,cameraNo):
     for person in known_persons:
         encoding = get_encoding(person.Id)
         known_encodings.append(encoding)
+    print("Got known_encodings")
     
     idToStatusDict = {}
     record = get_attendance_by_room(roomid)
     for i in record:
         idToStatusDict[i[0]] = i[2]
-        
+    print("Finished idToStatusDict")
+    
     cam = cv2.VideoCapture(cameraNo)
     cv2.namedWindow("Image")
     checker = 0
@@ -52,14 +54,16 @@ def process(roomid,cameraNo):
         cv2.imshow("Image", frame)
     
         if checker<5:
-            img_name = "1.png"
+            img_name = str(roomid) + "1.png"
             cv2.imwrite(img_name, frame)
             present_persons = classify_face(img_name,known_persons,known_encodings)
+            print("classify img call successful")
             markName(present_persons,idToStatusDict)
+            print("Markname call success")
             checker +=1
         else:
             checker = 0
-            os.remove("1.png")
+            os.remove(img_name)
             time.sleep(1)
          
     cam.release()     
