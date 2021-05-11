@@ -18,7 +18,7 @@ if(isset($_POST['submit']))
     if($stmt) {
         $stmt->bind_param('i',$id);
         $stmt->execute();
-        $result = $stmt->fetchAll();
+        $result = $stmt->get_result();
         $stmt->close();
     }
     else{
@@ -57,7 +57,7 @@ if(isset($_POST['submit']))
             <option value="1">1</option>
             <option value="2">2</option>
         </select>
-        <button type="submit">Search</button>
+        <input type="submit" name="submit" value="Search">
     </form>
     <br><br>
     <table>
